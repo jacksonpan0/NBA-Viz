@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "./Styles.css"
 import RenderSelectInput from './components/RenderSelectInput';
 import GenerateSeasonOptions from './components/GenerateSeasonOptions';
+import RenderChart from './components/RenderChart';
 
 const App = () => {
   const [players, setPlayers] = useState([]);
@@ -42,16 +43,17 @@ const App = () => {
   ]
   const seasonOptions = GenerateSeasonOptions(1947, 2024);
 
-
   useEffect(() => {
     fetchPlayers();
   }, []);
 
+  // Using asynchronous fetch to fetch from our Flask backend with the team and season we want
   const fetchPlayers = async () => {
     try {
       const response = await fetch(`http://127.0.0.1:5000/api/data?team=${team}&season=${season}`);
       const data = await response.json();
       setPlayers(data);
+      RenderChart(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -71,6 +73,7 @@ const App = () => {
         <br></br>
         <button type="submit">Fetch Players</button>
       </form>
+      <div id="chart-container" style={{ width: '600px', height: '400px' }}></div> {/* Container for chart */}
       <ul>
         {players.map(player => (
           <ul key={player.PlayerID}>
