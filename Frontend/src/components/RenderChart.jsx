@@ -1,9 +1,14 @@
+import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
 
-// Using echart to render our scatter plot
-const RenderChart = (data) => {
-    const chartContainer = document.getElementById('chart-container');
-    const myChart = echarts.init(chartContainer);
+const RenderChart = ({ data }) => {
+  const chartContainerRef = useRef(null);
+
+  useEffect(() => {
+    if (!data || !chartContainerRef.current) return;
+
+    const myChart = echarts.init(chartContainerRef.current);
+
     const option = {
       xAxis: {
         type: 'category',
@@ -23,7 +28,16 @@ const RenderChart = (data) => {
         type: 'scatter'
       }]
     };
+
     myChart.setOption(option);
-  };
+
+    // Cleanup function to dispose the chart when component unmounts
+    return () => {
+      myChart.dispose();
+    };
+  }, [data]);
+
+  return <div ref={chartContainerRef} style={{ width: '100%', height: '400px' }} />;
+};
 
 export default RenderChart;

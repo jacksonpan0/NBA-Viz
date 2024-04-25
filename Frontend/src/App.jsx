@@ -53,7 +53,6 @@ const App = () => {
       const response = await fetch(`http://127.0.0.1:5000/api/data?team=${team}&season=${season}`);
       const data = await response.json();
       setPlayers(data);
-      RenderChart(data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -73,7 +72,7 @@ const App = () => {
         <br></br>
         <button type="submit">Fetch Players</button>
       </form>
-      <div id="chart-container" style={{ width: '600px', height: '400px' }}></div> {/* Container for chart */}
+      <RenderChart data={players} />      
       <ul>
         {players.map(player => (
           <ul key={player.PlayerID}>
