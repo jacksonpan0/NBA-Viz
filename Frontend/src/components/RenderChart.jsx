@@ -9,22 +9,26 @@ const RenderChart = ({ data }) => {
 
     const myChart = echarts.init(chartContainerRef.current);
 
+    const playerNames = data.map(player => player.PlayerName);
+    const playerValues = data.map(player => player.ADJPIE);
+
     const option = {
-      xAxis: {
-        type: 'category',
-        axisLabel: {
-          formatter: '{value}'
-        }
-      },
       yAxis: {
         type: 'value',
+        name: 'ADJPIE'
+      },
+      xAxis: {
+        type: 'category',
+        data: playerNames,
+        name: 'Player Name',
         axisLabel: {
-          formatter: '{value}'
+          interval: 0, // Show all labels
+          rotate: 45, // Rotate labels for better visibility
         }
       },
       series: [{
-        symbolSize: 20,
-        data: data.map(player => player.ADJPIE),
+        symbolSize: 10,
+        data: data.map(player => [player.PlayerName, player.ADJPIE]),
         type: 'scatter'
       }]
     };
