@@ -3,3 +3,8 @@ body {
     width: 1440px;
     height: 900px;
 }
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

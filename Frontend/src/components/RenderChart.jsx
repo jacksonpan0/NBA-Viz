@@ -22,8 +22,8 @@ const RenderChart = ({ data }) => {
         data: playerNames,
         name: 'Player Name',
         axisLabel: {
-          interval: 0, // Show all labels
-          rotate: 45, // Rotate labels for better visibility
+          interval: 'auto', // Show all labels
+          rotate: 30, // Rotate labels for better visibility
         }
       },
       series: [{

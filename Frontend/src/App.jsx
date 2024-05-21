@@ -3,6 +3,7 @@ import "./Styles.css"
 import RenderSelectInput from './components/RenderSelectInput';
 import GenerateSeasonOptions from './components/GenerateSeasonOptions';
 import RenderChart from './components/RenderChart';
+import AboutPTI from './components/AboutPTI';
 
 const App = () => {
   const [players, setPlayers] = useState([]);
@@ -64,14 +65,22 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h1>NBA Visualization</h1>
+    <>
+      {/* Navbar creation holds title and info links. Using two containers to allow for spacing. */}
+      <nav className="navbar"> 
+        <header className='title'>
+          NBA Visualization
+        </header>
+        <p className='info'><AboutPTI /></p>
+      </nav>
+      {/* Form here handles calling the fetch method which calls the Flask backend to retrieve props. */}
       <form onSubmit={handleSubmit}>
         {RenderSelectInput("Team:", "team", (e) => setTeam(e.target.value), team, teamOptions)}
         {RenderSelectInput("Season:", "season", (e) => setSeason(e.target.value), season, seasonOptions)}
         <br></br>
         <button type="submit">Fetch Players</button>
       </form>
+      {/* Data chart is created here using Apache Echarts library to display player team impact through a barchart. */}
       <RenderChart data={players} />      
       <ul>
         {players.map(player => (
@@ -80,7 +89,7 @@ const App = () => {
           </ul>
         ))}
       </ul>
-    </div>
+    </>
   );
 }
 
