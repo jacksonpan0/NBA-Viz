@@ -29,7 +29,7 @@ const RenderChart = ({ data }) => {
       series: [{
         symbolSize: 10,
         data: data.map(player => [player.PlayerName, player.ADJPIE]),
-        type: 'scatter'
+        type: 'bar'
       }]
     };
 
