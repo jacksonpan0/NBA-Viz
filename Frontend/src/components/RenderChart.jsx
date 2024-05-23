@@ -10,12 +10,11 @@ const RenderChart = ({ data }) => {
     const myChart = echarts.init(chartContainerRef.current);
 
     const playerNames = data.map(player => player.PlayerName);
-    const playerValues = data.map(player => player.ADJPIE);
 
     const option = {
       yAxis: {
         type: 'value',
-        name: 'ADJPIE'
+        name: 'PTI'
       },
       xAxis: {
         type: 'category',
@@ -41,7 +40,7 @@ const RenderChart = ({ data }) => {
     };
   }, [data]);
 
-  return <div ref={chartContainerRef} style={{ width: '100%', height: '400px' }} />;
+  return <div ref={chartContainerRef} style={{ width: '100%', height: '400px'}} />;
 };
 
 export default RenderChart;

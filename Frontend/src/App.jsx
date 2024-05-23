@@ -85,7 +85,7 @@ const App = () => {
       <ul>
         {players.map(player => (
           <ul key={player.PlayerID}>
-            {player.PlayerName} - ADJPIE: {player.ADJPIE}
+            {player.PlayerName} - PTI: {player.ADJPIE}
           </ul>
         ))}
       </ul>
