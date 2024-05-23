@@ -3,6 +3,7 @@ import "./Styles.css"
 import RenderSelectInput from './components/RenderSelectInput';
 import GenerateSeasonOptions from './components/GenerateSeasonOptions';
 import RenderChart from './components/RenderChart';
+import AboutPTI from './components/AboutPTI';
 
 const App = () => {
   const [players, setPlayers] = useState([]);
@@ -65,6 +66,7 @@ const App = () => {
 
   return (
     <div>
+      <AboutPTI />
       <h1>NBA Visualization</h1>
       <form onSubmit={handleSubmit}>
         {RenderSelectInput("Team:", "team", (e) => setTeam(e.target.value), team, teamOptions)}
@@ -72,11 +74,11 @@ const App = () => {
         <br></br>
         <button type="submit">Fetch Players</button>
       </form>
-      <RenderChart data={players} />      
+      <RenderChart data={players} />
       <ul>
         {players.map(player => (
           <ul key={player.PlayerID}>
-            {player.PlayerName} - ADJPIE: {player.ADJPIE}
+            {player.PlayerName} - PTI: {player.ADJPIE}
           </ul>
         ))}
       </ul>
