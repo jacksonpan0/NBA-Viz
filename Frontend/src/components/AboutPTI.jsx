@@ -31,7 +31,6 @@ const AboutPTI = () => {
                 </p>
                 <button onClick={closeModal}>Close</button>
             </Modal>
-
         </>
     );
 }

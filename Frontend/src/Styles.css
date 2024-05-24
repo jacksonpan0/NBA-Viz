@@ -3,8 +3,31 @@ body {
     width: 1440px;
     height: 900px;
 }
+
 .navbar {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
+
+.PTIModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    background: rgb(78, 78, 78);
+    padding: 20px;
+    border: 1px solid #ccc;
+    outline: none;
+  }
+  
+  .Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  
