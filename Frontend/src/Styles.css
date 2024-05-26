@@ -1,13 +1,19 @@
-body {
+.app-content {
     text-align: center;
-    width: 1440px;
-    height: 900px;
+    width: 95%;
+    height: 70%;
 }
 
 .navbar {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.navlinks {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
 }
 
 .PTIModal {
@@ -23,11 +29,40 @@ body {
     outline: none;
   }
   
-  .Overlay {
+.Overlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-  }
+}
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    align-self: center;
+
+}
   
+.PTIButton {
+    cursor: pointer;
+}
+
+.PTIModal form {
+    display: flex;
+    flex-direction: column;
+}
+
+.PTIModal label {
+    margin-bottom: 10px;
+}
+
+.PTIModal input, .PTIModal textarea {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.PTIModal button {
+    margin-top: 10px;
+    padding: 20px;
+}

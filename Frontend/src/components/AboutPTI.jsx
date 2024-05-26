@@ -14,7 +14,7 @@ const AboutPTI = () => {
 
     return (
         <>
-            <a onClick={handleButtonClick}>
+            <a onClick={handleButtonClick} className='PTIButton'>
                 About PTI
             </a>
             <Modal
@@ -26,7 +26,7 @@ const AboutPTI = () => {
             >
                 <h2>What is PTI?</h2>
                 <p>
-                    PTI stands for player team impact. A novel formula is employed comparing a single individual's contribution
+                    PTI stands for player team impact. A novel formula is employed, comparing a single individual's contribution
                     against their entire team's statistic for that season.
                 </p>
                 <button onClick={closeModal}>Close</button>
