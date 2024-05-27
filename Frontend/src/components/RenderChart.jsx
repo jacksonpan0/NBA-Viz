@@ -12,17 +12,40 @@ const RenderChart = ({ data }) => {
     const playerNames = data.map(player => player.PlayerName);
 
     const option = {
+      title: {
+        text: 'Player Team Impact (PTI)',
+        left: 'center',
+        textStyle: {
+          fontSize: 20,
+          fontWeight: 'bold',
+          color: '#E1DCDC',
+        }
+      },
       yAxis: {
         type: 'value',
-        name: 'PTI'
+        name: 'PTI',
+        nameTextStyle: {
+          fontSize: 14,
+          fontWeight: 'bold',
+        },
+        axisLabel: {
+          fontSize: 12,
+          color: '#E1DCDC',
+        }
       },
       xAxis: {
         type: 'category',
         data: playerNames,
         name: 'Player Name',
+        nameTextStyle: {
+          fontSize: 14,
+          fontWeight: 'bold',
+        },
         axisLabel: {
-          interval: 'auto', // Show all labels
-          rotate: 30, // Rotate labels for better visibility
+          interval: 'auto',
+          rotate: 30,
+          fontSize: 12,
+          color: '#E1DCDC',
         }
       },
       series: [{

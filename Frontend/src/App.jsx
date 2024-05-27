@@ -66,34 +66,37 @@ const App = () => {
   };
 
   return (
-    <body className="app-content">
+    <main className="app-content">
       {/* Navbar creation holds title and info links. Using two containers to allow for spacing. */}
-      <nav className="navbar"> 
-        <header className='title'>
-          NBA Visualization
-        </header>
-        <navlinks className='navlinks'>
+      <header className="navbar">
+        <h1 className='title'>NBA Visualization</h1>
+        <nav className='navlinks'>
           <p><AboutPTI /></p>
           <p><Contact /></p>
-        </navlinks>
-      </nav>
-      {/* Form here handles calling the fetch method which calls the Flask backend to retrieve props. */}
-      <form onSubmit={handleSubmit}>
-        {RenderSelectInput("Team:", "team", (e) => setTeam(e.target.value), team, teamOptions)}
-        {RenderSelectInput("Season:", "season", (e) => setSeason(e.target.value), season, seasonOptions)}
-        <br></br>
-        <button type="submit">Fetch PTIs</button>
-      </form>
-      {/* Data chart is created here using Apache Echarts library to display player team impact through a barchart. */}
-      <RenderChart data={players} />      
-      <ul>
-        {players.map(player => (
-          <ul key={player.PlayerID}>
-            {player.PlayerName} - PTI: {player.ADJPIE}
-          </ul>
-        ))}
-      </ul>
-    </body>
+        </nav>
+      </header>
+      <section className='userForm'>
+        {/* Form here handles calling the fetch method which calls the Flask backend to retrieve props. */}
+        <form onSubmit={handleSubmit}>
+          {RenderSelectInput("Team:", "team", (e) => setTeam(e.target.value), team, teamOptions)}
+          {RenderSelectInput("Season:", "season", (e) => setSeason(e.target.value), season, seasonOptions)}
+          <button type="submit">Fetch PTIs</button>
+        </form>
+      </section>
+      <section className="chart-container">
+        {/* Data chart is created here using Apache Echarts library to display player team impact through a barchart. */}
+        <RenderChart data={players} />
+      </section>
+      <section>
+        <ul>
+          {players.map(player => (
+            <ul key={player.PlayerID}>
+              {player.PlayerName} - PTI: {player.ADJPIE}
+            </ul>
+          ))}
+        </ul>
+      </section>
+    </main>
   );
 }
 

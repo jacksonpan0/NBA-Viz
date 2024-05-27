@@ -46,7 +46,7 @@ const Contact = () => {
                 isOpen={clicked}
                 onRequestClose={closeModal}
                 contentLabel='Contact Form'
-                className='PTIModal'
+                className='ContactModal'
                 overlayClassName='Overlay'
             >
                 <h2>Contact Us</h2>

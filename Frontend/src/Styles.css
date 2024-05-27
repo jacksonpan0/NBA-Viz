@@ -1,6 +1,6 @@
 .app-content {
     text-align: center;
-    width: 95%;
+    width: 100%;
     height: 70%;
 }
 
@@ -8,6 +8,9 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 100px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .navlinks {
@@ -16,7 +19,8 @@
     gap: 20px;
 }
 
-.PTIModal {
+.PTIModal, 
+.ContactModal {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -38,31 +42,56 @@
 }
 
 .title {
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
     align-self: center;
-
+    color: '#E1DCDC';
 }
   
 .PTIButton {
     cursor: pointer;
 }
 
-.PTIModal form {
+.ContactModal form {
     display: flex;
     flex-direction: column;
 }
 
-.PTIModal label {
+.ContactModal label {
     margin-bottom: 10px;
 }
 
-.PTIModal input, .PTIModal textarea {
+.ContactModal input, .ContactModal textarea {
     width: 100%;
     margin-top: 5px;
 }
 
-.PTIModal button {
+.ContactModal button {
     margin-top: 10px;
     padding: 20px;
+}
+
+.chart-container {
+    margin-top: 50px;
+}
+
+.userForm {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.userForm form {
+    width:fit-content;
+    margin-top: 0px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(133, 133, 133, 0.87);
+    padding: 50px;
+    border-radius: 5px;
+}
+
+.userForm label {
+    margin-bottom: 10px;
 }
