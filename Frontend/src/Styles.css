@@ -87,8 +87,8 @@
     margin-top: 0px;
     display: flex;
     flex-direction: column;
-    background-color: rgba(133, 133, 133, 0.87);
-    padding: 50px;
+    background-color: rgba(133, 133, 133, 0.20);
+    padding: 35px;
     border-radius: 5px;
 }
 
