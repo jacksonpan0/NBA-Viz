@@ -38,41 +38,20 @@ def calculate_adv(player_adv):
 # We focus on all box score metrics but we do not halve OREB and BLK since we are measuring player performance across an entire season versus their own team's totals
 # A multiplication of 10 is applied to the final score in order to normalize the data since we are looking to set the range from 0-1
 def calculate_pie(player_totals):
-    # Assign weights to each statistic
-    weight_pts = 0.25
-    weight_fgm = 0.15
-    weight_ftm = 0.15
-    weight_fga = -0.20
-    weight_fta = -0.20
-    weight_dreb = 0.10
-    weight_oreb = 0.10
-    weight_ast = 0.10
-    weight_stl = 0.05
-    weight_blk = 0.05
-    weight_pf = -0.05
-    weight_tov = -0.05
+ # Assign weights to each statistic
+    weights = {
+        'PTS': 0.25, 'FGM': 0.15, 'FTM': 0.15, 'FGA': -0.20, 'FTA': -0.20,
+        'DREB': 0.10, 'OREB': 0.10, 'AST': 0.10, 'STL': 0.05, 'BLK': 0.05,
+        'PF': -0.05, 'TOV': -0.05
+    }
     
-    # Calculate Player Contribution with weights
-    player_totals['PlayerContribution'] = (
-        weight_pts * player_totals['PTS'] + weight_fgm * player_totals['FGM'] + weight_ftm * player_totals['FTM'] +
-        weight_fga * player_totals['FGA'] + weight_fta * player_totals['FTA'] + weight_dreb * player_totals['DREB'] +
-        weight_oreb * player_totals['OREB'] + weight_ast * player_totals['AST'] + weight_stl * player_totals['STL'] +
-        weight_blk * player_totals['BLK'] + weight_pf * player_totals['PF'] + weight_tov * player_totals['TOV']
-    )
+    # Use weights from dictionary and vectorized operations to calculate player contribution
+    player_totals['PlayerContribution'] = sum(player_totals[stat] * weight for stat, weight in weights.items())
     
-    # Calculate team total stats with weights
-    team_total_stats = (
-        weight_pts * player_totals['PTS'].sum() + weight_fgm * player_totals['FGM'].sum() + weight_ftm * player_totals['FTM'].sum() +
-        weight_fga * player_totals['FGA'].sum() + weight_fta * player_totals['FTA'].sum() + weight_dreb * player_totals['DREB'].sum() +
-        weight_oreb * player_totals['OREB'].sum() + weight_ast * player_totals['AST'].sum() + weight_stl * player_totals['STL'].sum() +
-        weight_blk * player_totals['BLK'].sum() + weight_pf * player_totals['PF'].sum() + weight_tov * player_totals['TOV'].sum()
-    )
+    # Team total stats with weights
+    team_total_stats = sum(player_totals[stat].sum() * weight for stat, weight in weights.items())
     
-    # Calculate PIE
-    player_totals['PIE'] = (
-        (player_totals['PlayerContribution'] / (team_total_stats - player_totals['PlayerContribution']))
-    )
-    
+    player_totals['PIE'] = player_totals['PlayerContribution'] / (team_total_stats - player_totals['PlayerContribution'])
     return player_totals
 
 
