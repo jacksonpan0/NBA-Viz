@@ -18,18 +18,16 @@ def read_sql_query_to_df(query, connection, params):
 # Win Share and Value Over Replacement Player were chosen for their unique measurement of player contribution against their own team
 def calculate_adv(player_adv):
     # Assigning weights here per importance
-    weight_ts = 0.35
-    weight_usg = 0.20
-    weight_ws = 0.25
-    weight_vorp = 0.20
-    player_adv['CompositeScore'] = (
-        (weight_ts * player_adv['TS']) + (weight_usg * player_adv['USAGE']) 
-        + (weight_ws * player_adv['WS']) + (weight_vorp * player_adv['VORP'])
-    )
+    weights = {
+        'TS': 0.35, 'USAGE': 0.20, 'WS': 0.25, 'VORP': 0.20
+    }
     
-    # We divide the player's score by the team total score to evaluate their adv stats impact compared to their teammates
-    # This accounts for each player's impact on their team, thus we use the team total
+    # Use weights from dictionary and vectorized operations to calculate advanced player contribution
+    # These are stats beyond the traditional box score stats which allow for a more in-depth analysis
+    player_adv['CompositeScore'] = sum(player_adv[stat] * weight for stat, weight in weights.items())
+    
     team_total_composite = player_adv['CompositeScore'].sum()
+    
     player_adv['ADV'] = player_adv['CompositeScore'] / (team_total_composite - player_adv['CompositeScore'])
     
     return player_adv
@@ -49,7 +47,7 @@ def calculate_pie(player_totals):
     player_totals['PlayerContribution'] = sum(player_totals[stat] * weight for stat, weight in weights.items())
     
     # Team total stats with weights
-    team_total_stats = sum(player_totals[stat].sum() * weight for stat, weight in weights.items())
+    team_total_stats = player_totals['PlayerContribution'].sum()
     
     player_totals['PIE'] = player_totals['PlayerContribution'] / (team_total_stats - player_totals['PlayerContribution'])
     return player_totals
