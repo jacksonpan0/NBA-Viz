@@ -3,6 +3,16 @@ import sqlite3 as sql
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
+app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+# Database connections (open once, reuse throughout the app)
+PIE_DB_PATH = './Backend/Player Totals.sqlite'
+ADV_DB_PATH = './Backend/advanced.sqlite'
+
+pie_connection = sql.connect(PIE_DB_PATH, check_same_thread=False)
+adv_connection = sql.connect(ADV_DB_PATH, check_same_thread=False)
+
 # Need this since we are gathering data from a CSV and we want to use SQL queries for easy searching
 def read_csv_to_sql(csv_file, table_name, connection):
     df = pd.read_csv(csv_file)
@@ -143,25 +153,11 @@ def get_players_by_team(player_with_adjpie, team_name=None):
         return team_data[['PlayerName', 'ADJPIE', 'season']]
     else:
         return player_with_adjpie[['PlayerName', 'ADJPIE', 'season']]
-
-def preprocess_data(team_abbreviation, season):
-    # Connect to SQLite databases
-    pie_connection = sql.connect('./Backend/Player Totals.sqlite')
-    adv_connection = sql.connect('./Backend/advanced.sqlite')
-
-    # Query data for the specified team and season
-    player_data_for_team = query_data_for_team(pie_connection, adv_connection, team_abbreviation, season)
-
-    # Get the players and their ADJPIE scores for the specified team
-    player_data = get_players_by_team(player_data_for_team, team_name=team_abbreviation)
     
-    # Drop rows with NaN values in the 'ADJPIE' column
-    player_data = player_data.dropna(subset=['ADJPIE'])
-
-    return player_data
-
-app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+def preprocess_data(team_abbreviation, season):
+    player_data_for_team = query_data_for_team(pie_connection, adv_connection, team_abbreviation, season)
+    player_data = get_players_by_team(player_data_for_team, team_name=team_abbreviation)
+    return player_data.dropna(subset=['ADJPIE'])
 
 @app.route('/api/data')
 def get_processed_data():
