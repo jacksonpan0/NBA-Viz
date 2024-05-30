@@ -1,5 +1,8 @@
 # NBA-Viz
 
+## Design Document
+https://docs.google.com/document/d/1yq8VrNR0Vt58NdcdFoxtk4WEj80ipIbE9HpCCMlmRaI/edit?usp=sharing
+
 ## Purpose
 This program aims to identify and visualize players' impact on their team's performance. This impact is calculated through a novel formula 
 accounting for the team's overall performance in a specific season.
