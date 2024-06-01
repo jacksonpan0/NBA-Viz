@@ -145,18 +145,13 @@ def query_data_for_team(pie_connection, adv_connection, team_abbreviation, seaso
     return player_with_adjpie
 
 
-def get_players_by_team(player_with_adjpie, team_name=None):
-    if team_name:
-        # Filter the dataframe for the specified team
-        team_data = player_with_adjpie[player_with_adjpie['TeamAbbrev'] == team_name]
-
-        return team_data[['PlayerName', 'ADJPIE', 'season']]
-    else:
-        return player_with_adjpie[['PlayerName', 'ADJPIE', 'season']]
+def get_players_by_team(player_with_adjpie):
+    # Filter the dataframe for the specified team
+    return player_with_adjpie[['PlayerName', 'ADJPIE', 'season']]
     
 def preprocess_data(team_abbreviation, season):
     player_data_for_team = query_data_for_team(pie_connection, adv_connection, team_abbreviation, season)
-    player_data = get_players_by_team(player_data_for_team, team_name=team_abbreviation)
+    player_data = get_players_by_team(player_data_for_team)
     return player_data.dropna(subset=['ADJPIE'])
 
 @app.route('/api/data')
