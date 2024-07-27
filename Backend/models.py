@@ -47,10 +47,9 @@ def query_data_for_team(pie_connection, adv_connection, team_abbreviation, seaso
             tm = ?
     """
     
-    # Define parameter values
     params = (season, team_abbreviation)
 
-    # Execute queries with parameters
+    # Execute separate queries for the two models which will later be compiled into one
     player_pie = pd.read_sql_query(player_pie_query, pie_connection, params=params)
     player_advanced = pd.read_sql_query(player_advanced_query, adv_connection, params=params)
     
