@@ -132,8 +132,8 @@ def query_data_for_team(pie_connection, adv_connection, team_abbreviation, seaso
     params = (season, team_abbreviation)
 
     # Execute queries with parameters
-    player_pie = read_sql_query_to_df(player_pie_query, pie_connection, params=params)
-    player_advanced = read_sql_query_to_df(player_advanced_query, adv_connection, params=params)
+    player_pie = pd.read_sql_query(player_pie_query, pie_connection, params=params)
+    player_advanced = pd.read_sql_query(player_advanced_query, adv_connection, params=params)
 
     # Calculate ADV and PIE
     player_pie_calculated = calculate_pie(player_pie)
