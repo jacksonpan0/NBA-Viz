@@ -5,8 +5,8 @@ from metrics import calculate_adv, calculate_pie, add_adjpie_column
 # Query function meant to support versatility by allowing user option for teams
 def query_data_for_team(pie_connection, adv_connection, team_abbreviation, season):
     # Reading our CSV files to SQL, only needs to be done once to establish connection and table names
-    read_csv_to_sql('./Backend/Advanced.csv', 'Player_Advanced_Table', adv_connection)
-    read_csv_to_sql('./Backend/Player Totals.csv', 'Player_Totals_Table', pie_connection)
+    # read_csv_to_sql('./Backend/Advanced.csv', 'Player_Advanced_Table', adv_connection)
+    # read_csv_to_sql('./Backend/Player Totals.csv', 'Player_Totals_Table', pie_connection)
     
     player_pie_query = """
         SELECT 
