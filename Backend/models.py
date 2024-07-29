@@ -1,11 +1,13 @@
 import pandas as pd
-from database import get_pie_connection, get_adv_connection
+from database import read_csv_to_sql, pie_connection, adv_connection
+from metrics import calculate_adv, calculate_pie, add_adjpie_column
 
+# Query function meant to support versatility by allowing user option for teams
 def query_data_for_team(pie_connection, adv_connection, team_abbreviation, season):
-    pie_connection = get_pie_connection()
-    adv_connection = get_adv_connection()
+    # Reading our CSV files to SQL, only needs to be done once to establish connection and table names
+    read_csv_to_sql('./Backend/Advanced.csv', 'Player_Advanced_Table', adv_connection)
+    read_csv_to_sql('./Backend/Player Totals.csv', 'Player_Totals_Table', pie_connection)
     
-    # Define the SQL queries with placeholders for parameters
     player_pie_query = """
         SELECT 
             player_id as PlayerID,
@@ -28,9 +30,9 @@ def query_data_for_team(pie_connection, adv_connection, team_abbreviation, seaso
             Player_Totals_Table
         WHERE
             season = ? AND
-            tm = ? 
+            tm = ?
     """
-    
+
     player_advanced_query = """
         SELECT 
             player_id as PlayerID,
@@ -46,11 +48,26 @@ def query_data_for_team(pie_connection, adv_connection, team_abbreviation, seaso
             season = ? AND
             tm = ?
     """
-    
+
     params = (season, team_abbreviation)
 
-    # Execute separate queries for the two models which will later be compiled into one
     player_pie = pd.read_sql_query(player_pie_query, pie_connection, params=params)
     player_advanced = pd.read_sql_query(player_advanced_query, adv_connection, params=params)
+
+    # Calculate ADV and PIE
+    player_pie_calculated = calculate_pie(player_pie)
+    player_advanced_calculated = calculate_adv(player_advanced)
+
+    # Add ADJPIE column
+    player_with_adjpie = add_adjpie_column(player_pie_calculated, player_advanced_calculated)
+
+    return player_with_adjpie
+
+def get_players_by_team(player_with_adjpie):
+    # Filter the dataframe for the specified team
+    return player_with_adjpie[['PlayerName', 'ADJPIE', 'season']]
     
-    return player_pie, player_advanced
+def preprocess_data(team_abbreviation, season):
+    player_data_for_team = query_data_for_team(pie_connection, adv_connection, team_abbreviation, season)
+    player_data = get_players_by_team(player_data_for_team)
+    return player_data.dropna(subset=['ADJPIE'])
