@@ -1,63 +1,52 @@
-name: Deploy
-
-on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# Sets the GITHUB_TOKEN permissions to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow one concurrent deployment
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-
 jobs:
-  # Single deploy job since we're just deploying
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Set up Node
+
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "npm"
 
-      # Install frontend dependencies
-      - name: Install Frontend Dependencies
+      - name: Install Frontend dependencies
         run: |
-          cd frontend
-          npm install
+          cd Frontend
+          npm ci
 
-      # Build the frontend
       - name: Build Frontend
         run: |
-          cd frontend
+          cd Frontend
           npm run build
 
-      # Setup Pages (needed for GitHub Pages deployment)
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+
+      - name: Install Backend dependencies
+        run: |
+          cd Backend
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: Run Flask Backend
+        run: |
+          cd Backend
+          source venv/bin/activate
+          FLASK_APP=app.py flask run &
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      # Upload artifact from the frontend build output (e.g., dist folder)
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "./frontend/dist"
+          path: "./Frontend/dist"
 
-      # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
