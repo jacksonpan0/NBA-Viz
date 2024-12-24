@@ -1,9 +1,10 @@
 import sqlite3 as sql
 import pandas as pd
+from pathlib import Path
 
 # Database connections (open once, reuse throughout the app)
-PIE_DB_PATH = './Backend/Player Totals.sqlite'
-ADV_DB_PATH = './Backend/advanced.sqlite'
+PIE_DB_PATH = Path(__file__).parent / 'Player_Totals.sqlite'
+ADV_DB_PATH = Path(__file__).parent / 'advanced.sqlite'
 
 pie_connection = sql.connect(PIE_DB_PATH, check_same_thread=False)
 adv_connection = sql.connect(ADV_DB_PATH, check_same_thread=False)
