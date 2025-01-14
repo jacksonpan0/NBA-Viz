@@ -1,8 +1,8 @@
-name: Deploy static content to Pages
+name: Deploy
 
 on:
   push:
-    branches: ['main']
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'pages'
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
@@ -23,32 +23,31 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           cache-dependency-path: Frontend/package-lock.json
           node-version: 20
-          cache: 'npm'
-
-      - name: Install dependencies
+          cache: "npm"
+      - name: Install frontend dependencies
+        run: npm ci
+      - name: Build frontend
+        run: npm run build
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12.6"
+      - name: Install backend dependencies
         run: |
-          cd Frontend
-          npm ci
-
-      - name: Build
-        run: |
-          cd Frontend
-          npm run build
-
+          pip install Flask
+          pip install Flask-Cors
+          pip install pandas
       - name: Setup Pages
         uses: actions/configure-pages@v4
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: Frontend/dist
-
+          path: "./dist"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
