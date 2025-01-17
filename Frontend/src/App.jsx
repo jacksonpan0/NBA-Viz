@@ -3,11 +3,13 @@ import "./Styles.css";
 import Userform from "./components/userform/Userform";
 import RenderChart from "./components/RenderChart";
 import Navbar from "./components/nav/Navbar";
+import PlayerList from "./components/userDisplay/playerList";
 
 const App = () => {
   const [players, setPlayers] = useState([]);
   const [team, setTeam] = useState("");
   const [season, setSeason] = useState("");
+  const [lastSubmitted, setLastSubmitted] = useState({ team: "", season: "" });
 
   useEffect(() => {
     fetchPlayers();
@@ -15,6 +17,7 @@ const App = () => {
 
   // Using asynchronous fetch to fetch from our Flask backend with the team and season we want
   const fetchPlayers = async () => {
+    if (!team || !season) return;
     try {
       const response = await fetch(
         `http://127.0.0.1:5000/api/data?team=${team}&season=${season}`
@@ -28,6 +31,10 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (team === lastSubmitted.team && season === lastSubmitted.season) {
+      return;
+    }
+    setLastSubmitted({ team, season });
     fetchPlayers();
   };
 
@@ -35,7 +42,6 @@ const App = () => {
     <main className="app-content">
       <Navbar />
       <section className="userForm">
-        {/* Form here handles calling the fetch method which calls the Flask backend to retrieve props. */}
         <form onSubmit={handleSubmit}>
           <Userform
             team={team}
@@ -44,20 +50,15 @@ const App = () => {
             setSeason={setSeason}
           />
           <button type="submit">Fetch PTIs</button>
+          <p>Select a Team & Season to get started!</p>
         </form>
       </section>
       <section className="chart-container">
         {/* Data chart is created here using Apache Echarts library to display player team impact through a barchart. */}
         <RenderChart data={players} />
       </section>
-      <section>
-        <ul>
-          {players.map((player) => (
-            <ul key={player.PlayerID}>
-              {player.PlayerName} - PTI: {player.ADJPIE}
-            </ul>
-          ))}
-        </ul>
+      <section className="playerList">
+        <PlayerList players={players} />
       </section>
     </main>
   );
