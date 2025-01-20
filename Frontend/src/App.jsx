@@ -11,11 +11,6 @@ const App = () => {
   const [season, setSeason] = useState("");
   const [lastSubmitted, setLastSubmitted] = useState({ team: "", season: "" });
 
-  useEffect(() => {
-    fetchPlayers();
-  }, []);
-
-  // Using asynchronous fetch to fetch from our Flask backend with the team and season we want
   const fetchPlayers = async () => {
     if (!team || !season) return;
     try {
