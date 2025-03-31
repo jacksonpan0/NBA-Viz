@@ -1,5 +1,5 @@
-import RenderSelectInput from "./RenderSelectInput";
 import GenerateSeasonOptions from "./GenerateSeasonOptions";
+import "./Userform.css";
 const Userform = ({ team, season, setTeam, setSeason }) => {
   const teamOptions = [
     { value: "NONE", labl: " " },
@@ -34,26 +34,40 @@ const Userform = ({ team, season, setTeam, setSeason }) => {
     { value: "UTA", label: "Utah Jazz" },
     { value: "WAS", label: "Washington Wizards" },
   ];
+
   const seasonOptions = GenerateSeasonOptions(1947, 2025);
+
+  const RenderSelectInput = (label, name, onChange, selectedValue, options) => (
+    <label>
+      {label}
+      <div className="renderSelectArea">
+        <select name={name} onChange={onChange} value={selectedValue}>
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </div>
+    </label>
+  );
 
   return (
     <>
-      <>
-        {RenderSelectInput(
-          "Team:",
-          "team",
-          (e) => setTeam(e.target.value),
-          team,
-          teamOptions
-        )}
-        {RenderSelectInput(
-          "Season:",
-          "season",
-          (e) => setSeason(e.target.value),
-          season,
-          seasonOptions
-        )}
-      </>
+      {RenderSelectInput(
+        "Team:",
+        "team",
+        (e) => setTeam(e.target.value),
+        team,
+        teamOptions
+      )}
+      {RenderSelectInput(
+        "Season:",
+        "season",
+        (e) => setSeason(e.target.value),
+        season,
+        seasonOptions
+      )}
     </>
   );
 };
